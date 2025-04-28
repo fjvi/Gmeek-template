@@ -5,12 +5,12 @@ on:
   issues:
     types: [opened, edited]
   schedule:
-    - cron: "0 16 * * 1"
+    - cron: "0 5 * * 1"
     
 jobs:
   build:
     name: Generate blog
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     if: ${{ github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule' }}
     permissions: write-all
     steps:
@@ -60,7 +60,7 @@ jobs:
           git config --local user.email "$(jq -r ".email" config.json)"
           git config --local user.name "${{ github.repository_owner }}"
           git add .
-          git commit -a -m '🎉auto update by Gmeek action' || echo "nothing to commit"
+          git commit -a -m '✍️auto update by Gmeek action' || echo "nothing to commit"
           git push || echo "nothing to push"
           sleep 3
           
@@ -71,7 +71,7 @@ jobs:
           
   deploy:
     name: Deploy blog
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     needs: build
     permissions:
       contents: write
